@@ -1,0 +1,176 @@
+<!-- Modal for adding a product if clicked on th PLUS COL-->
+<div class="modal fade" id="exampleModal" tabindex="1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="direction: rtl; text-align: right;">
+            <div class="modal-body">
+                <div>הרכישה הושלמה !</div>
+                <div>ניתן להוריד את הקבלה כקובץ באמצעות לחיצה על כפתור ההורדה.</div>
+                <div class="my-2" type="button" style="cursor: pointer; width: 140px;" *ngIf="orderId"><a
+                        target="_blank" (click)="downloadOrderTxt()"><i class="fas fa-cart-arrow-down"
+                            style="font-size: 25px;"></i>
+                        הורדת קבלה</a>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">סגור</button> -->
+                <button type="button" class="btn btn-primary" data-dismiss="modal" routerLink="/">חזרה לדף
+                    הראשי</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row no-gutters" style="justify-content: center;height:100vh;">
+    <div class="col-xl-9 col-md-8 col-sm-6">
+
+        <div *ngIf="this.Basket.cart_products.length === 0">
+            <div class="col-12 pt-3 header shadow">
+                <p>עגלת הקניות ריקה, אנא מלא/י אותה במוצרים לפני סיום הרכישה !</p>
+            </div>
+
+            <div class="row no-gutters" style="text-align:center; justify-content: center; margin-top: 5%;">
+                <div class="btn btn-dark" routerLink="/products">
+                    חזרה לרכישה</div>
+            </div>
+        </div>
+
+        <div *ngIf="this.Basket.cart_products.length > 0">
+            <div class="col-12 pt-3 header shadow">
+                <p>רק עוד כמה פרטים והמשלוח יוצא לדרך !</p>
+            </div>
+
+            <mat-horizontal-stepper linear class="mt-3">
+                <mat-step label="מלא/י פרטי משלוח" [stepControl]="formGroup1">
+                    <form class="example-form row no-gutters" [formGroup]="formGroup1">
+                        <div class="col-4">
+                            <mat-form-field>
+                                <mat-label>עיר/יישוב</mat-label>
+                                <mat-select formControlName="firstCtrl" required [(ngModel)]="obj.toCity">
+                                    <mat-option *ngFor="let city of cities" [value]="city.value">
+                                        {{city.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>רחוב</mat-label>
+                                <input matInput type="text" formControlName="secondCtrl" required
+                                    [(ngModel)]="obj.toStreet">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>תאריך משלוח</mat-label>
+                                <input matInput type="date" (change)="checkDate()" formControlName="thirdCtrl" required
+                                    [(ngModel)]="obj.orderDate">
+                            </mat-form-field>
+                        </div>
+                    </form>
+                    <div class="alertMsgs">
+                        <div class="my-2">
+                            <div *ngIf="!obj.toCity || !obj.toStreet || !obj.orderDate">{{allFieldsReq}}<br></div>
+                            <div>{{dateAlert}}</div>
+                        </div>
+                    </div>
+                    <button mat-raised-button matStepperNext color="primary" class="ml-2 mt-4">הבא<i
+                            class="fas fa-arrow-left"></i></button>
+                </mat-step>
+
+                <mat-step label="מלא/י פרטי תשלום" [stepControl]="formGroup2">
+                    <div class="mt-3">
+                        <p> אנא מלא/י מספר אשראי על מנת לבצע חיוב בסיום הרכישה. <br>
+                            מספר האשראי לא ישותף עם אף אחד !!!</p>
+                    </div>
+                    <form class="example-form row no-gutters" [formGroup]="formGroup2">
+                        <div class="col-12" (change)="checkCard()">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>מספר אשראי</mat-label>
+                                <input matInput type="text" formControlName="firstCtrl" minlength="16" maxlength="16"
+                                    required [(ngModel)]="obj.card">
+                            </mat-form-field>
+                        </div>
+                    </form>
+                    <div class="mt-3" *ngIf="this.cardMsg">
+                        <p> {{this.cardMsg}}</p>
+                    </div>
+                    <button mat-raised-button matStepperPrevious class="ml-2 mt-4" color="primary"> <i
+                            class="fas fa-arrow-right ml-1"></i>הקודם</button>
+                    <button mat-raised-button matStepperNext class="ml-2 mt-4" color="primary">הבא <i
+                            class="fas fa-arrow-left"></i></button>
+                </mat-step>
+
+                <mat-step label="סיום רכישה">
+                    <p class="registerMSG mt-5" *ngIf="dateIsFine == true">כל הפרטים מולאו בהצלחה.<br>
+                        בלחיצה על הכפתור יבוצע התשלום והמשלוח יצא לדרך !</p>
+                    <p class="registerMSG mt-5" *ngIf="dateIsFine == false">ישנה בעיה במילוי תאריך המשלוח.<br>
+                        נא למלא תאריך תקין !</p>
+                    <div>
+                        <button mat-raised-button color="primary" class="ml-2 mt-4" matStepperPrevious><i
+                                class="fas fa-arrow-right ml-1"></i>הקודם</button>
+                        <button mat-raised-button style="background-color: rgb(255, 166, 0);color: white;"
+                            class="ml-2 mt-4" (click)="onSubmit()" data-toggle="modal" data-target="#exampleModal"
+                            *ngIf="dateIsFine == true">סיים
+                            רכישה</button>
+                        <button mat-raised-button style="background-color: rgb(165, 158, 146);color: rgb(0, 0, 0);"
+                            class="ml-2 mt-4" (click)="onSubmit()" data-toggle="modal" data-target="#exampleModal"
+                            *ngIf="dateIsFine == false" disabled>סיים
+                            רכישה</button>
+                    </div>
+
+
+
+                </mat-step>
+            </mat-horizontal-stepper>
+        </div>
+
+
+    </div>
+    <div class="col-xl-3 col-md-4 col-sm-6 bg-light shadow">
+        <!-- <app-side-window></app-side-window> -->
+
+        <div *ngIf="LoggedUser.role === 0" style="position: sticky;top: 0px;max-height:85vh;overflow-y:scroll;">
+            <div class="row no-gutters" style="text-align: center; direction: rtl;height: auto; ">
+                <div class="bg-dark text-light cart-header">עגלת הקניות שלך</div>
+
+                <!-- search bar -->
+                <div class="row no-gutters my-3 pr-2">
+                    <input type="search" class="form-control" placeholder="חפש/י מוצר..."
+                        [(ngModel)]="productsSearch" />
+                </div>
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">שם</th>
+                            <th scope="col">כמות</th>
+                            <th scope="col">מחיר ליחידה</th>
+                            <th scope="col">מחיר כולל</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let product of cartProducts | namepipe : productsSearch : searchOption;">
+                            <td>{{product.product_name}}</td>
+                            <td>{{product.quantity}}</td>
+                            <td>{{product.price}}₪</td>
+                            <td>{{product.productTotal}}₪</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="totalPrice"><u>סך הכל:</u> {{getTotal()}}₪</p>
+            <hr style="width:50%;" />
+
+            <div class="row no-gutters" style="text-align:center; justify-content: center;" *ngIf="this.cartProducts">
+                <div class="btn btn-dark paymentBtn" routerLink="/products">
+                    חזרה לרכישה</div>
+            </div>
+
+            <div class="row no-gutters" style="text-align:center; justify-content: center;" *ngIf="!this.cartProducts">
+                <div class="btn btn-dark paymentBtn" hidden routerLink="/products">
+                    חזרה לרכישה</div>
+            </div>
+        </div>
+    </div>
+</div>

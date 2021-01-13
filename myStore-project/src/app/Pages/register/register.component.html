@@ -1,0 +1,145 @@
+<div class="row no-gutters registerPage">
+
+    <div class="col-12 pt-3 header">
+        <p>את/ה שלושה צעדים מלהיות חבר/ה שלנו!</p>
+    </div>
+
+    <div class="col-8">
+        <mat-horizontal-stepper linear class="mt-3">
+            <mat-step label="שלב ראשון" [stepControl]="formGroup1">
+                <form class="example-form row no-gutters" [formGroup]="formGroup1">
+                    <div class="col-6">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>תעודת זהות</mat-label>
+                            <input matInput type="text" (change)="validateIdNum(obj.idNum)" formControlName="firstCtrl"
+                                required minlength="9" maxlength="9" [(ngModel)]="obj.idNum">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>אימייל</mat-label>
+                            <input matInput type="email" formControlName="secondCtrl" required [(ngModel)]="obj.email"
+                                (change)="validateEmail(obj.email)">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>סיסמה</mat-label>
+                            <input matInput type="password" formControlName="thirdCtrl" required minlength="6"
+                                [(ngModel)]="obj.password">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>אימות סיסמה</mat-label>
+                            <input matInput type="password" formControlName="forthCtrl" required minlength="6"
+                                [(ngModel)]="verifiedPass">
+                        </mat-form-field>
+                    </div>
+                </form>
+
+                <div class="alertMsgs">
+                    <div class="my-2" *ngIf="idNumStatus === 3">*תעודת הזהות קיימת במערכת, אנא נסה להתחבר או להכניס מספר
+                        תעודת זהות אחרת! </div>
+                    <div class="my-2" *ngIf="mailStatus === 2">*כתובת המייל קיימת במערכת אנא התחבר או בחר במייל
+                        אחר! </div>
+                    <div class="my-2" *ngIf="verifiedPass !== obj.password">*חובה להכניס סיסמה זהה בשנית על מנת לבצע
+                        ווידוא תקינות!</div>
+                    <div class="my-2" *ngIf="6 > obj.password.length">*על הסיסמה להכיל 6
+                        תווים ומעלה! </div>
+                </div>
+
+                <div
+                    *ngIf="verifiedPass == obj.password && verifiedPass.length > 5 && obj.password.length > 5 && mailStatus === 1 && idNumStatus === 1">
+                    <button mat-raised-button matStepperNext color="primary" class="ml-2 mt-4">הבא<i
+                            class="fas fa-arrow-left"></i></button>
+                </div>
+
+            </mat-step>
+
+            <mat-step label="שלב שני" [stepControl]="formGroup2">
+                <form class="example-form row no-gutters" [formGroup]="formGroup2">
+                    <div class="col-6">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>שם פרטי</mat-label>
+                            <input matInput type="text" formControlName="firstCtrl" required
+                                [(ngModel)]="obj.firstName">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>שם משפחה</mat-label>
+                            <input matInput type="text" formControlName="secondCtrl" required
+                                [(ngModel)]="obj.lastName">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6">
+                        <mat-form-field>
+                            <mat-label>עיר/יישוב</mat-label>
+                            <mat-select formControlName="thirdCtrl" required [(ngModel)]="obj.city">
+                                <mat-option *ngFor="let city of cities" [value]="city.value">
+                                    {{city.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>כתובת</mat-label>
+                            <input matInput type="text" formControlName="forthCtrl" required [(ngModel)]="obj.street">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6" hidden>
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Role</mat-label>
+                            <input matInput type="number" [value]="obj.role">
+                        </mat-form-field>
+                    </div>
+                </form>
+                <button mat-raised-button matStepperPrevious class="ml-2 mt-4" color="primary"> <i
+                        class="fas fa-arrow-right ml-1"></i>הקודם</button>
+                <button mat-raised-button matStepperNext class="ml-2 mt-4" color="primary">הבא <i
+                        class="fas fa-arrow-left"></i></button>
+            </mat-step>
+
+            <mat-step label="שלב שלישי">
+                <div *ngIf="mailStatus === 1 && idNumStatus === 1 && verifiedPass === obj.password">
+                    <p class="registerMSG mt-5">סיימת את תהליך
+                        ההרשמה. באפשרותך לחזור אחורה ולוודא את הפרטים שמילאת.<br>
+                        לחצ/י על כפתור סיום ההרשמה על מנת להיות חבר/ה שלנו ולהתחיל בקניה הראשונה!</p>
+                    <div>
+                        <button mat-raised-button color="primary" class="ml-2 mt-4" matStepperPrevious><i
+                                class="fas fa-arrow-right ml-1"></i>הקודם</button>
+                        <button mat-raised-button style="background-color: rgb(255, 166, 0);color: white;"
+                            class="ml-2 mt-4" (click)="onSubmit()">הירשם/י</button>
+                    </div>
+                </div>
+
+                <div *ngIf="mailStatus !== 1 || idNumStatus !== 1 || verifiedPass !== obj.password">
+                    <p class="registerMSG mt-5">הנך קרוב מאוד לסיום תהליך ההרשמה!<br>
+                        חלק מהפרטים לא מלאים כראוי, אנא חזור אחורה ובדוק את הטופס בשנית.</p>
+                    <div>
+                        <button mat-raised-button color="primary" class="ml-2 mt-4" matStepperPrevious><i
+                                class="fas fa-arrow-right ml-1"></i>הקודם</button>
+                        <button mat-raised-button style="background-color: rgb(141, 134, 122);color: black;"
+                            class="ml-2 mt-4" (click)="onSubmit()" disabled>הירשם/י</button>
+                    </div>
+                </div>
+
+                <div class="my-4">
+                    <div *ngIf="registerMSG">
+                        <div class="spinner-grow ml-1" style="width: 3rem; height: 3rem;" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        <!-- <mat-spinner></mat-spinner> -->
+                    </div>
+                    <p class="loaderMSG mt-3"> {{registerMSG}}</p>
+                </div>
+
+            </mat-step>
+        </mat-horizontal-stepper>
+
+
+    </div>
+
+</div>

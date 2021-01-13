@@ -1,0 +1,271 @@
+<body>
+
+    <!-- Modal for adding a product if clicked on th PLUS COL-->
+    <div class="modal fade" id="exampleModal" tabindex="1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">חלון הוספת מוצר</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body ml-3">
+                    <div class="row no-gutters" style="direction: rtl;">
+                        <div class="col-xl-6 col-sm-12">
+                            <div class="form-group">
+                                <label for="male">הכנס שם מוצר:</label>
+                                <input type="text" class="form-control" id="name" [(ngModel)]=name>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-sm-12">
+                            <div class="form-group">
+                                <label for="male">בחר קטגוריה:</label>
+                                <select class="form-control" [(ngModel)]=cat_id>
+                                    <option disabled selected>.........</option>
+                                    <option *ngFor="let cat of categoriesArray" [ngValue]="cat.id"> {{cat.name}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-sm-12">
+                            <div class="form-group">
+                                <label for="male">הכנס מחיר מוצר:</label>
+                                <input type="number" class="form-control" id="price" [(ngModel)]=price>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-sm-12">
+                            <div class="form-group">
+                                <label for="male">הכנס תיאור מוצר:</label>
+                                <input type="text" class="form-control" id="description" [(ngModel)]=description>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-12 col-sm-12">
+                            <div class="form-group">
+                                <div class="mr-1"> <small>תמונה:</small></div>
+                                <input type="file" name="image" id="imageFile" (change)="addImage($event)">
+                            </div>
+                        </div>
+                        <div class="col-12" style="text-align:center;">
+                            <span style="font-size: 30px;"> {{addMsg}} </span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" (click)="addNewProduct()">הוספת
+                        מוצר</button>
+                    <button type="button" id="closeAddModal" class="btn btn-secondary" data-dismiss="modal">
+                        סגור</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row no-gutters" style="justify-content: center;height:100vh;">
+
+        <div class="col-xl-9 col-md-8 col-sm-6">
+            <mat-tab-group mat-align-tabs="start">
+                <mat-tab label="כללי">
+
+                    <!-- search bar -->
+                    <div class="row no-gutters my-3 pr-2">
+                        <div class="col-12">
+                            <div class="row no-gutters">
+                                <div class="col-xl-3 col-sm-12">
+                                    <input type="search" class="form-control" placeholder="חפש/י מוצר..."
+                                        [(ngModel)]="productsSearch" />
+                                </div>
+                            </div>
+                            <hr />
+                        </div>
+
+                    </div>
+
+                    <!-- show this section when there is no search action -->
+                    <div class="row no-gutters pl-2 pr-2">
+
+                        <!-- COL to add a products using a modal -->
+                        <div class="col-xl-2 col-sm-12 col-md-4" *ngIf="LoggedUser.role === 1">
+                            <div class="card my-2">
+                                <div class="card-body"
+                                    style="text-align: center;font-size: 145px; color: orange; cursor: pointer; height: 292px;">
+                                    <!-- Button trigger modal -->
+                                    <a class="my-3" type="button" data-toggle="modal" data-target="#exampleModal"> <i
+                                            class="fas fa-plus-circle"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-2 col-sm-12 col-md-4"
+                            *ngFor="let everything of productsArray | namepipe : productsSearch : searchOption;">
+                            <div class="card my-2">
+                                <div class="cardImg">
+                                    <img src="{{url}}{{everything.image}}" class="card-img-top">
+                                </div>
+                                <div class="card-body">
+                                    <h3><b>{{everything.name}}</b></h3>
+                                    <p class="card-text">{{everything.price}}₪</p>
+
+                                    <div class="row bottomBtns" *ngIf="LoggedUser.role === 0">
+                                        <button type="button" class="qntBtn" (click)="plus(everything)"><i
+                                                class="fa fa-plus"></i></button>
+                                        <input class="form-control" type="text" [value]="everything.qnt" disabled>
+                                        <button type="button" class="qntBtn" (click)="minus(everything)"><i
+                                                class="fa fa-minus"></i></button>
+                                    </div>
+                                </div>
+                                <div class="container mb-1">
+                                    <a class="col-6 btn btn-danger addBtn" (click)="insertProductToCart(everything)"
+                                        *ngIf="LoggedUser.role === 0">הוסף</a>
+                                    <a class="col-6 btn btn-secondary addBtn" (click)="getProductById(everything.id)"
+                                        *ngIf="LoggedUser.role === 1">עדכן</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </mat-tab>
+
+                <mat-tab *ngFor="let cat of categoriesArray" label="{{cat.name}}">
+                    <div class="row no-gutters p-2">
+                        <div class="col-xl-2 col-sm-12 col-md-4" *ngFor="let product of cat.products">
+                            <div class="card my-2">
+                                <div class="cardImg">
+                                    <img src="{{url}}{{product.image}}" class="card-img-top">
+                                </div>
+                                <div class="card-body">
+                                    <h3><b>{{product.name}}</b></h3>
+                                    <p class="card-text">{{product.price}}₪</p>
+                                    <div class="row bottomBtns" *ngIf="LoggedUser.role === 0">
+                                        <button type="button" class="qntBtn" (click)="plus(product)"><i
+                                                class="fa fa-plus"></i></button>
+                                        <input class="form-control" type="text" [value]="product.qnt" disabled>
+                                        <button type="button" class="qntBtn" (click)="minus(product)"><i
+                                                class="fa fa-minus"></i></button>
+                                    </div>
+                                </div>
+                                <div class="container mb-1">
+                                    <a class="col-6 btn btn-danger addBtn" (click)="insertProductToCart(product)"
+                                        *ngIf="LoggedUser.role === 0">הוסף</a>
+                                    <a class="col-6 btn btn-secondary addBtn" (click)="getProductById(product.id)"
+                                        *ngIf="LoggedUser.role === 1">עדכן</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+
+            </mat-tab-group>
+
+        </div>
+
+        <div class="col-xl-3 col-md-4 col-sm-6 bg-light">
+            <!-- <app-side-window></app-side-window> -->
+
+            <div *ngIf="LoggedUser.role === 0" style="position: sticky;top: 0px;max-height:85vh;overflow-y:scroll;">
+                <div class="row no-gutters" style="text-align: center; direction: rtl;height: auto; ">
+                    <div class="bg-dark text-light cart-header">עגלת הקניות שלך</div>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">שם</th>
+                                <th scope="col">כמות</th>
+                                <th scope="col">מחיר</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let product of cartProducts">
+                                <td>{{product.product_name}}</td>
+                                <td>{{product.quantity}}</td>
+                                <td>{{product.productTotal}}₪</td>
+                                <td><i class="far fa-times-circle" (click)="removeFromCart(product.id)"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <div class="totalPrice"><u>סך הכל:</u> {{getTotal()}}₪</div>
+                    <hr style="width:50%;" />
+                    <div class="row no-gutters" style="text-align:center; justify-content: center;">
+                        <div class="btn btn-dark paymentBtn" routerLink="/payment">
+                            מעבר לתשלום</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div *ngIf="LoggedUser.role === 1" style="position: sticky;top: 0px;">
+                <div class="row no-gutters sidebar">
+                    <div class="bg-dark text-light" style="width: 100%; font-size: 20px; padding: 5px;">פאנל ניהול חנות
+                    </div>
+
+                    <div *ngIf="!selectedProduct" class="p-2" style="text-align: right; font-size: 17px;">
+                        <p> לחץ על כפתור 'עדכן' לצד מוצר מסוים על מנת להציג את הפרטים שלו, לעדכן או למחוק את המוצר
+                            הנבחר. <br>
+                            בלחיצה על כפתור ה <b>+</b> יפתח חלון ובוא יהיה ניתן להוסיף מוצר חדש.</p>
+                    </div>
+                    <div *ngIf="selectedProduct" class="p-2">
+                        <div class="row no-gutters">
+                            <div class="col-12 my-3">
+                                <img src="{{url}}{{selectedProduct[0].image}}" width="200" />
+                            </div>
+
+                            <div class="col-xl-6 col-sm-12">
+                                <mat-form-field appearance="fill" style="width: 90%;font-size:14px;">
+                                    <mat-label>שם:</mat-label>
+                                    <input matInput type="text" [(ngModel)]=selectedProduct[0].name>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-xl-6 col-sm-12">
+                                <mat-form-field appearance="fill" style="width: 90%;font-size:14px;">
+                                    <mat-label>מחיר:</mat-label>
+                                    <input matInput type=" number" [(ngModel)]=selectedProduct[0].price>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-xl-6 col-sm-12">
+                                <mat-form-field appearance="fill" style="width: 90%;font-size:14px;">
+                                    <mat-label>תיאור:</mat-label>
+                                    <input matInput type="text" [(ngModel)]=selectedProduct[0].description>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-xl-6 col-sm-12">
+                                <mat-form-field appearance="fill" style="width: 90%;font-size:14px;">
+                                    <mat-label>קטגוריה</mat-label>
+                                    <mat-select [(ngModel)]="selectedCatId">
+                                        <mat-option matInput *ngFor="let cat of categoriesArray" value={{cat.id}}>
+                                            <span> {{cat.name}} </span>
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-xl-12 col-sm-12">
+                                <div class="form-group" style="text-align: right;">
+                                    <div class="mr-2"> <small>תמונה:</small></div>
+                                    <input type="file" name="image" id="imageFile" (change)="updateImage($event)">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <button type="button" class="btn btnUpdate" (click)="updateProduct()"><i
+                                class="fas fa-pencil-alt ml-1"></i>עדכן מוצר
+                        </button>
+                        <button type="button" class="btn btnDelete mr-2"
+                            (click)="deleteProduct(selectedProduct[0].id)"><i class="fas fa-trash ml-1"></i>מחק
+                            מוצר</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>

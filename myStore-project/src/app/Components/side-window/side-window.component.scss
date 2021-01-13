@@ -1,0 +1,33 @@
+.sidebar{
+    font-family: 'Assistant', sans-serif;
+    text-align: center;
+    direction: rtl;
+    
+    .btnClient{
+        background-color: rgb(255, 166, 0);
+        &:hover{
+            background-color: #343a40;
+            // color: white;
+        }
+    }
+    .btnUpdate{
+        background-color: rgb(255, 166, 0);
+        color: white;
+        &:hover{
+            background-color: #343a40;
+        }
+    }
+    .btnDelete{
+        background-color: rgb(231, 27, 27);
+        color: white;
+        &:hover{
+            background-color: #343a40;
+        }
+    }
+}
+
+
+mat-form-field{
+    direction: rtl;
+    text-align: right;
+}

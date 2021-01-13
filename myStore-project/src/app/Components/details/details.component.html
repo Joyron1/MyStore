@@ -1,0 +1,58 @@
+<div class="row no-gutters" style="direction: rtl;">
+
+    <div class="col-8">
+        <img src="../../../assets/images/shop1.jpg" style="width: 100%; height: 500px;">
+        <div class="p-3" style="text-align: right;">
+            <h3>קנה מזון אונליין!</h3>
+            <small><i>חסוך זמן בתור וקנה מהבית!</i></small>
+            <p class="text-dark mt-4" style="font-size: 14px; line-height: 25px;">
+                myStore היא חנות מכולת מעולה, אשר נותנת אפשרות לקנות באינטרנט ולחסוך זמן.
+                אתה לא צריך לחכות בתורים יותר!<br>
+                קנייה של מצרכים מקוונים תקל לכם את החיים. בכמה צעדים קטנים תקבלו את המשלוח שלכם למיקום המדויק שתעבירו
+                לנו.<br>
+                אנו נעשה הכל כדי להקל עליכם בעזרת השירותים שלנו ונעשה כמיטב יכולתינו על מנת לגרום ללקוחותינו סיפוק
+                ושביעות רצון מירבית!<br>
+                אז אם עדיין אינך רשום, אתה מוזמן לעשות זאת על מנת שנוכל לצאת אליך עם הקנייה הראשונה שלך!
+            </p>
+        </div>
+    </div>
+
+    <div class="col-4 bg-light pt-4" style="text-align: center; direction: rtl; height: 100vh;">
+        <div>
+            <p style="font-size:x-large; color: rgb(300, 130, 50);">מידע שטוב לדעת!</p>
+            <hr style="width: 200px;" />
+        </div>
+
+        <div class="container">
+            <svg height="100" width="100">
+                <circle cx="50" cy="50" r="40" stroke="rgb(300, 130, 50)" stroke-width="10" fill="rgb(255, 166, 0)" />
+                <text x="50%" y="50%" text-anchor="middle" dy=".3em" fill="white"
+                    style="font-size: 30px;">{{productsQntArray.length}}</text>
+            </svg>
+            <p class="my-2">בחנות שלנו יש <b>{{productsQntArray.length}}</b> מוצרים שונים.</p>
+            <hr>
+        </div>
+
+        <div class="container">
+            <svg height="100" width="100">
+                <circle cx="50" cy="50" r="40" stroke="rgb(300, 130, 50)" stroke-width="10" fill="rgb(255, 166, 0)" />
+                <text x="50%" y="50%" text-anchor="middle" dy=".3em" fill="white"
+                    style="font-size: 30px;">{{usersQntArray.length}}</text>
+            </svg>
+            <p class="my-2">ישנם <b>{{usersQntArray.length}}</b> משתמשים רשומים בחנות </p>
+            <hr>
+        </div>
+
+        <div class="container">
+            <svg height="100" width="100">
+                <circle cx="50" cy="50" r="40" stroke="rgb(300, 130, 50)" stroke-width="10" fill="rgb(255, 166, 0)" />
+                <text x="50%" y="50%" text-anchor="middle" dy=".3em" fill="white"
+                    style="font-size: 30px;">{{ordersQntArray.length}}</text>
+            </svg>
+            <p class="my-2">עד כה בוצעו <b>{{ordersQntArray.length}}</b> הזמנות באתר.</p>
+
+        </div>
+    </div>
+
+
+</div>

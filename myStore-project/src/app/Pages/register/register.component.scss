@@ -1,0 +1,30 @@
+.registerPage{
+    justify-content: center; 
+    direction: rtl; 
+    text-align: center;
+    .header{
+        font-family: 'Secular One', sans-serif;
+        font-size: 50px;
+        direction: rtl;
+        text-align: center; 
+        background-color: rgba(128, 128, 128, 0.301); 
+        color: rgba(94, 94, 93, 0.603); 
+    }
+    .alertMsgs{
+        color: red;
+        padding: 10px;
+        text-align: right;
+    }
+    mat-horizontal-stepper{
+        font-family: 'Assistant', sans-serif;
+    }
+    mat-form-field{
+        font-family: 'Assistant', sans-serif;
+        text-align: right;
+    }
+    .registerMSG{
+            font-size: 25px;
+    }
+}
+
+

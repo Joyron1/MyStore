@@ -1,0 +1,55 @@
+.cart-header{
+    width: 100%; 
+    font-size: 20px; 
+    padding: 5px;
+}
+.table{
+    width: 100%; 
+    text-align: center;
+    overflow-y: scroll;
+    height: 100%;
+    tbody{
+        td{
+            i{
+                cursor: pointer;
+                &:hover{
+                    transform: scale(1.5);
+                }
+            }
+        }
+    }
+}
+.totalPrice{
+    font-size: 20px; 
+    text-align: center; 
+    margin-top: 20px;
+}
+.paymentBtn{
+    width: 30%; 
+    font-size: 15px; 
+    border-radius: 25px;
+    &:hover{
+        background-color: rgba(255, 166, 0, 0.815);
+    }
+}
+.header{
+    font-family: 'Secular One', sans-serif;
+    font-size: 50px;
+    direction: rtl;
+    text-align: center; 
+    background-color: rgba(128, 128, 128, 0.301); 
+    color: rgba(94, 94, 93, 0.603); 
+}
+.alertMsgs{
+    color: red;
+    padding: 10px;
+    text-align: right;
+}
+
+mat-horizontal-stepper{
+    direction: rtl; 
+    text-align: center;
+    mat-form-field{
+        text-align: right;
+    }
+}

@@ -1,0 +1,68 @@
+<div *ngIf="pathname == '/'">
+
+    <div class="row no-gutters sidebar" style="text-align: center; direction: rtl;">
+        <div class="bg-dark text-light" style="width: 100%; font-size: 20px; padding: 5px;">התחברות</div>
+        <div class="col-12 loginForm p-5" *ngIf="!LoggedUser">
+            <div class="mb-3" style="font-size: 17px;">בבקשה התחבר/י על מנת להמשיך לחנות</div>
+            <div class="form-group">
+                <input type="email" class="form-control" id="email" placeholder="אימייל" [(ngModel)]="user.email"
+                    required>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" id="password" placeholder="סיסמה"
+                    [(ngModel)]="user.password" required>
+            </div>
+            <div class="col-12 mb-3" style="text-align: center;">
+                <small style="color: rgb(255, 0, 0);">{{errMsg}}</small>
+            </div>
+            <button type="button" class="col-12 btn btnClient text-light" (click)="LoginCheck()">
+                התחבר/י
+            </button>
+            <small>עוד לא נרשמת? <a routerLink="register">להרשמה לחץ כאן!</a></small>
+        </div>
+
+        <div class="col-12 loginForm p-5" *ngIf="LoggedUser">
+            <div *ngIf="LoggedUser.role === 0">
+                <div *ngIf="!existCart">
+                    <div class="my-3">שלום {{LoggedUser.firstName}} {{LoggedUser.lastName}} </div>
+                    <div>
+                        <div class="my-1" style="font-size: 30px;">העגלה שלך ריקה!</div>
+                        <p>המשך לחנות בכדי להוסיף מוצרים לעגלת הקניות</p>
+                    </div>
+                    <button type="button" class="col-12 btn btnClient text-light" (click)="sessionCheck()">
+                        למעבר לחנות <i class="fas fa-shopping-cart"></i>
+                    </button>
+                </div>
+
+                <div *ngIf="existCart">
+                    <div class="my-3">שלום {{LoggedUser.firstName}} {{LoggedUser.lastName}} </div>
+                    <div *ngIf="existCart.status == 0">
+                        <div class="my-1" style="font-size: 30px;">יש לך עגלה פתוחה!</div>
+                        <p>המשך לחנות בכדי להוסיף מוצרים לעגלת הקניות</p>
+                    </div>
+                    <div *ngIf="existCart.status == 1">
+                        <div class="my-1" style="font-size: 30px;">העגלה שלך ריקה!</div>
+                        <p>לצפייה בקניות האחרונות שלך <br>
+                            <a href="#">לחץ כאן</a></p>
+                    </div>
+                    <button type="button" class="col-12 btn btnClient text-light" (click)="sessionCheck()">
+                        להמשך הקנייה <i class="fas fa-shopping-cart"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div *ngIf="LoggedUser.role === 1">
+                <div class="my-3">שלום מנהל</div>
+                <div>
+                    <div class="my-1" style="font-size: 30px;">האתר לשירותך!</div>
+                    <p>המשך לחנות על מנת לעדכן את רשימת המוצרים</p>
+                </div>
+                <button type="button" class="col-12 btn btnClient text-light" (click)="sessionCheck()">
+                    למעבר לחנות <i class="fas fa-shopping-cart"></i>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,18 @@
+<div class="row no-gutters" style="height: auto; background-color: rgba(255, 195, 82, 0.644);">
+    <div class="col-6">
+        <div type="button"
+            style="float: left; font-size: 40px; margin: 10px 0px 10px 20px; cursor: pointer; text-decoration: none;"
+            routerLink="">myStore<i class="fas fa-shopping-cart"></i>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="signoutBtn" *ngIf="LoggedUser">
+            <span id="userName">שלום {{this.LoggedUser.firstName}}</span>
+            <div id="btn" (click)="signOut()">
+                התנתק/י <i class="fas fa-sign-out-alt"> </i>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row no-gutters text-light" style="height: 10px; background-color: rgb(255, 166, 0);">
+</div>

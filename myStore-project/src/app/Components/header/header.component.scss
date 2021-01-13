@@ -1,0 +1,21 @@
+div[type="button"]{
+    border: none;
+    outline: none;
+}
+
+.signoutBtn{
+    float: right; 
+    margin: 20px 20px;
+    #userName{
+        font-size: 27px;
+    }
+    #btn{
+        margin-left: 10px;
+        cursor: pointer;
+        text-align: center; 
+        font-size: 14px;
+        &:hover{
+            color:white;
+        }
+    }
+}

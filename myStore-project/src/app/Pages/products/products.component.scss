@@ -1,0 +1,152 @@
+body{
+    mat-tab-group{
+        direction: rtl;
+        text-align: right;
+    }
+    mat-tab{
+        
+    }
+    .modal-content{
+        font-family: 'Assistant', sans-serif;
+        .modal-header{
+            .modal-title{
+                font-family: 'Assistant', sans-serif;
+                font-size: 30px;
+            }           
+        }
+        .modal-body{
+            .form-group{
+                width: 200px;
+                direction: rtl;
+                text-align: right;
+            }
+        }
+    }
+    .card{
+        // height: 100%;
+        &:hover{
+            border: 1px solid orange;
+            border-top: 1px solid orange;
+        }
+        .cardImg{
+            text-align: center; 
+            padding-top: 30px;
+            img{
+                width: 120px;
+                height: 120px;
+            }
+        }
+        .card-body{
+            font-family: 'Assistant', sans-serif;
+            direction: rtl; 
+            text-align: right;
+            h3{
+                font-family: 'Assistant', sans-serif;
+                font-weight: 700;
+                font-size: 14px;
+                max-width: 100%;
+            }
+            .bottomBtns{
+                justify-content: center;
+            }
+            .qntBtn{
+                border-radius: 50%;
+                border: none;
+                outline: none;
+                font-size: 13px;
+                width: auto;
+                border: 0.5px solid rgba(0, 0, 0, 0.301);
+                z-index: 1;
+                text-decoration: none;
+                &:hover{
+                    border: 0.5px solid  rgb(204, 19, 19);
+                }
+                i{
+                    color: rgb(204, 19, 19);
+                }
+            }
+            .form-control{
+                width: 100px;
+                height: 25px;
+            }
+        }
+        .addBtn{
+            display: flexbox;
+            width: 100%;
+            font-size: 12px; 
+            color: white;
+            float: left;
+        }
+        
+    }
+
+    .cart-header{
+        width: 100%; 
+        font-size: 20px; 
+        padding: 5px;
+    }
+    .table{
+        width: 100%; 
+        text-align: center;
+        overflow-y: scroll;
+        height: 100%;
+        tbody{
+            td{
+                i{
+                    cursor: pointer;
+                    &:hover{
+                        transform: scale(1.5);
+                    }
+                }
+            }
+        }
+    }
+    .totalPrice{
+        font-size: 20px; 
+        text-align: center; 
+        margin-top: 20px;
+    }
+    .paymentBtn{
+        max-width: 35%; 
+        font-size: 15px; 
+        border-radius: 25px;
+        &:hover{
+            background-color: rgba(255, 166, 0, 0.815);
+        }
+    }
+
+    .sidebar{
+        font-family: 'Assistant', sans-serif;
+        text-align: center;
+        direction: rtl;
+        
+        .btnClient{
+            background-color: rgb(255, 166, 0);
+            &:hover{
+                background-color: #343a40;
+                // color: white;
+            }
+        }
+        .btnUpdate{
+            background-color: rgb(255, 166, 0);
+            color: white;
+            &:hover{
+                background-color: #343a40;
+            }
+        }
+        .btnDelete{
+            background-color: rgb(231, 27, 27);
+            color: white;
+            &:hover{
+                background-color: #343a40;
+            }
+        }
+    }
+    
+    
+    mat-form-field{
+        direction: rtl;
+        text-align: right;
+    }
+}
+
